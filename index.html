@@ -673,11 +673,23 @@
   }, {threshold:.12});
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
-  // exclusive accordion: open one closes others (manual, since iOS name= reflow is twitchy)
+  // exclusive accordion: opening one closes the others — but keep the
+  // tapped panel anchored under the finger so the page doesn't jump when a
+  // panel above it collapses.
   var days = document.querySelectorAll('details.day');
   days.forEach(function(d){
     d.addEventListener('toggle', function(){
-      if(d.open){ days.forEach(function(o){ if(o!==d) o.open = false; }); }
+      if(!d.open) return;
+      var anyOpen = false;
+      days.forEach(function(o){ if(o!==d && o.open) anyOpen = true; });
+      if(!anyOpen) return;
+      // record where the tapped panel sits before others close
+      var before = d.getBoundingClientRect().top;
+      days.forEach(function(o){ if(o!==d) o.open = false; });
+      // correct scroll by exactly how far it shifted, so it stays put
+      var after = d.getBoundingClientRect().top;
+      var delta = after - before;
+      if(delta) window.scrollBy(0, delta);
     });
   });
 </script>
