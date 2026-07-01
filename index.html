@@ -305,6 +305,38 @@
     text-decoration:none; -webkit-tap-highlight-color:transparent;
   }
   a.tix::before{content:"🎟 "}
+  /* jump-to menu */
+  html{scroll-behavior:smooth; scroll-padding-top:14px}
+  .navfab{
+    position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom,0px)); z-index:60;
+    display:flex; align-items:center; gap:8px; padding:0 16px; height:46px; border-radius:999px;
+    background:rgba(11,22,45,.62); -webkit-backdrop-filter:blur(14px) saturate(150%); backdrop-filter:blur(14px) saturate(150%);
+    border:1px solid rgba(255,255,255,.14); color:var(--gold-lt); font-weight:700; font-size:var(--step--1);
+    letter-spacing:.06em; box-shadow:0 8px 26px rgba(0,0,0,.4); cursor:pointer;
+  }
+  .navfab svg{width:18px; height:18px}
+  .navfab:active{transform:scale(.96)}
+  .navov{
+    position:fixed; inset:0; z-index:70; display:flex; flex-direction:column;
+    padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(24px + env(safe-area-inset-bottom,0px));
+    background:rgba(6,12,26,.82); -webkit-backdrop-filter:blur(20px) saturate(150%); backdrop-filter:blur(20px) saturate(150%);
+    opacity:0; visibility:hidden; transition:opacity .26s ease, visibility .26s ease;
+  }
+  .navov.open{opacity:1; visibility:visible}
+  .navov .ovhead{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
+  .navov .ovt{font-size:var(--step--1); text-transform:uppercase; letter-spacing:.2em; color:var(--mute)}
+  .navov .ovx{
+    width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); color:var(--ink); font-size:19px; cursor:pointer;
+  }
+  .navov a{
+    display:flex; align-items:baseline; gap:16px; padding:16px 4px; text-decoration:none; color:var(--ink);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .navov a .n{color:var(--gold); font-weight:800; font-size:var(--step-0); min-width:32px; letter-spacing:.05em}
+  .navov a .lbl{font-size:var(--step-1); font-weight:700; letter-spacing:-.01em}
+  .navov a.active .n, .navov a.active .lbl, .navov a:active .lbl{color:var(--gold-lt)}
+  body.noscroll{overflow:hidden}
 </style>
 </head>
 <body>
@@ -329,7 +361,7 @@
 
   <!-- SETUP -->
   <section class="reveal">
-    <div class="sec-head"><span class="no">01</span><div><h2>The Setup</h2><div class="ds">Everything's locked.</div></div></div>
+    <div class="sec-head" id="s01"><span class="no">01</span><div><h2>The Setup</h2><div class="ds">Everything's locked.</div></div></div>
     <div class="glass card accent-scarlet">
       <div class="row"><span class="k">Flights</span><span class="v">Breeze nonstop. Out Thu Jul 2, 12:43p → 1:57p SFO. Back Wed Jul 8, 7:54p → 10:45p. <span class="v mute">(B7TCHG)</span></span></div>
       <div class="row"><span class="k">Hotel</span><span class="v">Royal Pacific Motor Inn, 661 Broadway — Chinatown / North Beach. 2 queens, private bath, free parking. 6 nights, $768.</span></div>
@@ -344,11 +376,20 @@
         <li><b>Pack a jacket</b> — SF July runs cool/foggy, 60s day / 50s night. Collared shirt for Top of the Mark.</li>
       </ul>
     </div>
+
+    <div class="note glass">
+      <div class="nt">Local hacks</div>
+      <ul class="clean">
+        <li><span class="lab">Cable car</span> — skip the Powell St turnaround line. Walk one block to the stop in front of the H&M on Union Square; the conductor holds a few spots there.</li>
+        <li><span class="lab">City Hall</span> — the dome and main floor are free and open to the public. Worth a look if you're ever near Van Ness for American Valor 250.</li>
+        <li><span class="lab">Crookedest street</span> — it's not Lombard, it's Vermont St between 20th & 22nd. Skip the Lombard tourist jam if you don't need the photo.</li>
+      </ul>
+    </div>
   </section>
 
   <!-- DAYS -->
   <section class="reveal">
-    <div class="sec-head"><span class="no">02</span><div><h2>Day by Day</h2><div class="ds">Tap a day to open it.</div></div></div>
+    <div class="sec-head" id="s02"><span class="no">02</span><div><h2>Day by Day</h2><div class="ds">Tap a day to open it.</div></div></div>
 
     <!-- THU -->
     <details class="glass day" open>
@@ -491,6 +532,7 @@
         </div>
         <ul class="clean">
           <li><span class="lab">Daytime</span> — Alcatraz (book ahead; ferries at Pier 33, walkable) or the Ferry Building food hall.</li>
+          <li><span class="lab">Heads-up</span> — USA won its World Cup group and could play its Round of 16 match tonight (Jul 6, Seattle) if they beat Bosnia on Jul 1. Check the score between innings, or pick a sports bar near Oracle Park that'll have both on.</li>
         </ul>
       </div></div></div>
     </details>
@@ -531,7 +573,7 @@
 
   <!-- LIGHTS -->
   <section class="reveal">
-    <div class="sec-head"><span class="no">03</span><div><h2>The Lights</h2><div class="ds">SF goes electric for the 250th. Front-load the lasers — they end Jul 4.</div></div></div>
+    <div class="sec-head" id="s03"><span class="no">03</span><div><h2>The Lights</h2><div class="ds">SF goes electric for the 250th. Front-load the lasers — they end Jul 4.</div></div></div>
 
     <div class="lights-rail">
       <div class="glass light ends">
@@ -581,7 +623,7 @@
 
   <!-- FIREWORKS PLAYBOOK -->
   <section class="reveal">
-    <div class="sec-head"><span class="no">04</span><div><h2>Fireworks Playbook</h2><div class="ds">Jul 4, ~9:30p, off the Golden Gate Bridge towers. Where to stand + the hacks.</div></div></div>
+    <div class="sec-head" id="s04"><span class="no">04</span><div><h2>Fireworks Playbook</h2><div class="ds">Jul 4, ~9:30p, off the Golden Gate Bridge towers. Where to stand + the hacks.</div></div></div>
 
     <div class="glass card accent-scarlet">
       <span class="role">The catch</span>
@@ -614,10 +656,11 @@
 
   <!-- FOOD -->
   <section class="reveal">
-    <div class="sec-head"><span class="no">05</span><div><h2>Food</h2><div class="ds">Best food neighborhood in SF — most of it's a walk.</div></div></div>
+    <div class="sec-head" id="s05"><span class="no">05</span><div><h2>Food</h2><div class="ds">Best food neighborhood in SF — most of it's a walk.</div></div></div>
 
     <div class="foodgrp">
       <div class="gt">Walk to it · Chinatown / North Beach</div>
+      <div class="glass food" style="border-color:rgba(200,166,91,.3)"><span class="nm"><a class="map" href="https://maps.apple.com/?q=China%20Live%20644%20Broadway%20San%20Francisco">China Live ⭐</a></span><span class="ds">Literally across the street from the hotel. Market-restaurant, dumplings, retail, a cocktail bar upstairs.</span><span class="pr">$$–$$$</span></div>
       <div class="glass food"><span class="nm"><a class="map" href="https://maps.apple.com/?q=Sotto%20Mare%20552%20Green%20St%20San%20Francisco">Sotto Mare</a></span><span class="ds">Cioppino — SF's seafood stew. Top sit-down.</span><span class="pr">$$–$$$</span></div>
       <div class="glass food"><span class="nm"><a class="map" href="https://maps.apple.com/?q=R%26G%20Lounge%20631%20Kearny%20St%20San%20Francisco">R&G Lounge</a></span><span class="ds">Salt & pepper Dungeness crab, paraded out.</span><span class="pr">$$–$$$</span></div>
       <div class="glass food"><span class="nm"><a class="map" href="https://maps.apple.com/?q=Good%20Mong%20Kok%20Bakery%201039%20Stockton%20St%20San%20Francisco">Good Mong Kok</a></span><span class="ds">Cheap dim sum to-go — eat in Washington Sq.</span><span class="pr">~$9</span></div>
@@ -625,6 +668,12 @@
       <div class="glass food"><span class="nm"><a class="map" href="https://maps.apple.com/?q=Tony%27s%20Pizza%20Napoletana%201570%20Stockton%20St%20San%20Francisco">Tony's Pizza</a></span><span class="ds">13× world-champion pizza maker.</span><span class="pr">$$</span></div>
       <div class="glass food"><span class="nm"><a class="map" href="https://maps.apple.com/?q=Liguria%20Bakery%201700%20Stockton%20St%20San%20Francisco">Liguria Bakery</a></span><span class="ds">Focaccia only — go AM, sells out by noon.</span><span class="pr">$</span></div>
       <div class="glass food"><span class="nm"><a class="map" href="https://maps.apple.com/?q=Golden%20Gate%20Bakery%201029%20Grant%20Ave%20San%20Francisco">Golden Gate Bakery</a></span><span class="ds">Viral egg tarts (erratic hours — if open, go).</span><span class="pr">$</span></div>
+    </div>
+
+    <div class="foodgrp">
+      <div class="gt">Worth the Uber · viral right now</div>
+      <div class="glass food"><span class="nm"><a class="map" href="https://maps.apple.com/?q=Boichik%20Bagels%2022%20Battery%20St%20San%20Francisco">Boichik Bagels</a></span><span class="ds">NY-style, widely called the Bay's best. FiDi location — pair with a WeWork/Corgi work morning.</span><span class="pr">~$8</span></div>
+      <div class="glass food"><span class="nm"><a class="map" href="https://maps.apple.com/?q=Hog%20Island%20Oyster%20Co%20Ferry%20Building%20San%20Francisco">Hog Island Oyster Co.</a></span><span class="ds">Oysters + a grilled cheese — an odd, elite combo. Ferry Building.</span><span class="pr">$$</span></div>
     </div>
 
     <div class="foodgrp">
@@ -645,6 +694,7 @@
       <ul class="clean">
         <li><span class="lab" style="color:var(--scarlet-lt)">Skip</span> — Fisherman's Wharf clam-chowder bread bowl. Locals roast it as a tourist trap.</li>
         <li><span class="lab" style="color:var(--scarlet-lt)">Heads-up</span> — July is off-season for fresh Dungeness; may be frozen. Lean oysters / cioppino for peak-fresh.</li>
+        <li><span class="lab" style="color:var(--scarlet-lt)">Bakery timing</span> — Chinatown bakeries open early but the good stuff (egg tarts, buns) sells out by 10a. Hit one before the Marine social if you want first pick.</li>
         <li><span class="lab" style="color:var(--scarlet-lt)">Cash</span> — Swan, Golden Gate Bakery, Golden Boy, smaller Chinatown spots.</li>
         <li><span class="lab" style="color:var(--scarlet-lt)">Key</span> — $ under ~$15 · $$ ~$15–30 · $$$ ~$40–60+ (crab & cioppino).</li>
       </ul>
@@ -653,7 +703,7 @@
 
   <!-- RHYTHM -->
   <section class="reveal">
-    <div class="sec-head"><span class="no">06</span><div><h2>The Rhythm</h2><div class="ds">Brotherhood → ambition → fun, all from the most walkable spot in the city.</div></div></div>
+    <div class="sec-head" id="s06"><span class="no">06</span><div><h2>The Rhythm</h2><div class="ds">Brotherhood → ambition → fun, all from the most walkable spot in the city.</div></div></div>
     <div class="glass card accent-gold">
       <ul class="clean rhythm">
         <li><span class="lab">Thu 2</span> — Land → Marine 250th Social → First Thursdays block party → Exploratorium (or 7x7 lasers).</li>
@@ -675,7 +725,7 @@
 
   <!-- THE CIRCUIT (tech / networking) -->
   <section class="reveal">
-    <div class="sec-head"><span class="no">07</span><div><h2>The Circuit</h2><div class="ds">AI World's Fair ends the day you land. Skip the badge — its free side events are the real room.</div></div></div>
+    <div class="sec-head" id="s07"><span class="no">07</span><div><h2>The Circuit</h2><div class="ds">AI World's Fair ends the day you land. Skip the badge — its free side events are the real room.</div></div></div>
 
     <div class="glass card accent-blue">
       <span class="role">The play</span>
@@ -804,7 +854,7 @@
 
   <!-- WHERE TO WORK -->
   <section class="reveal">
-    <div class="sec-head"><span class="no">08</span><div><h2>Where to Work</h2><div class="ds">WFH Mon–Thu. Standup's 9:30a — calls need quiet. Map pins + booking links on each.</div></div></div>
+    <div class="sec-head" id="s08"><span class="no">08</span><div><h2>Where to Work</h2><div class="ds">WFH Mon–Thu. Standup's 9:30a — calls need quiet. Map pins + booking links on each.</div></div></div>
 
     <div class="note glass" style="border-color:rgba(74,158,255,.28)">
       <div class="nt">The play</div>
@@ -920,6 +970,23 @@
 
 </div>
 
+<button class="navfab" id="navBtn" aria-label="Open section menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+  <span>Menu</span>
+</button>
+
+<nav class="navov" id="navOv" aria-hidden="true">
+  <div class="ovhead"><span class="ovt">Jump to</span><button class="ovx" id="navClose" aria-label="Close menu">✕</button></div>
+  <a href="#s01"><span class="n">01</span><span class="lbl">The Setup</span></a>
+  <a href="#s02"><span class="n">02</span><span class="lbl">Day by Day</span></a>
+  <a href="#s03"><span class="n">03</span><span class="lbl">The Lights</span></a>
+  <a href="#s04"><span class="n">04</span><span class="lbl">Fireworks Playbook</span></a>
+  <a href="#s05"><span class="n">05</span><span class="lbl">Food</span></a>
+  <a href="#s06"><span class="n">06</span><span class="lbl">The Rhythm</span></a>
+  <a href="#s07"><span class="n">07</span><span class="lbl">The Circuit</span></a>
+  <a href="#s08"><span class="n">08</span><span class="lbl">Where to Work</span></a>
+</nav>
+
 <script>
   // scroll progress
   var bar = document.querySelector('.progress'),
@@ -955,6 +1022,27 @@
       if(delta) window.scrollBy(0, delta);
     });
   });
+  // jump-to menu
+  var navBtn = document.getElementById('navBtn'),
+      navOv  = document.getElementById('navOv'),
+      navClose = document.getElementById('navClose');
+  function openNav(){ navOv.classList.add('open'); navOv.setAttribute('aria-hidden','false'); document.body.classList.add('noscroll'); }
+  function closeNav(){ navOv.classList.remove('open'); navOv.setAttribute('aria-hidden','true'); document.body.classList.remove('noscroll'); }
+  navBtn.addEventListener('click', openNav);
+  navClose.addEventListener('click', closeNav);
+  navOv.addEventListener('click', function(e){ if(e.target === navOv) closeNav(); });
+  var navLinks = navOv.querySelectorAll('a');
+  navLinks.forEach(function(a){ a.addEventListener('click', function(){ navLinks.forEach(function(x){ x.classList.remove('active'); }); a.classList.add('active'); closeNav(); }); });
+  // active-section highlight (scrollspy)
+  function updateActive(){
+    var current = null;
+    navLinks.forEach(function(a){
+      var t = document.querySelector(a.getAttribute('href'));
+      if(t && t.getBoundingClientRect().top <= 90) current = a;
+    });
+    navLinks.forEach(function(a){ a.classList.toggle('active', a === current); });
+  }
+  addEventListener('scroll', updateActive, {passive:true}); updateActive();
 </script>
 </body>
 </html>
